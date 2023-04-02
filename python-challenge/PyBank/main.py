@@ -1,4 +1,4 @@
-## PyBank
+## PyBank importing csv and os and other liberaries
 import os
 import csv
 import math
@@ -6,10 +6,10 @@ import string
 import pathlib
 from pathlib import Path
 
-budgetpath = pathlib.Path('C:/users/shara/PythonStuff/python-challenge/PyBank/Resources/budget_data.csv')
+# path to the data file
 
-# print(csvreader)	
 csvpath = pathlib.Path("C:/users/shara/PythonStuff/python-challenge/PyBank/Resources/budget_data.csv")
+# initializing the variables 
 pl_val = 0.00
 pl_cnt = 0
 sum_pl = 0
@@ -24,14 +24,17 @@ line_cnt2 = 0
 grt_inc = 1
 grt_dec = 0
 
+#Opening the file to read and process to count the number of records to show how many months data is available in the file
 with open("./Resources/budget_data.csv", 'r') as csvfile:
     csvreader = csv.reader(csvfile,  delimiter=',')
     csv_header = next(csvreader)
 
     # Read each row of data after the header
     for row in csvreader:
-        row_val = sum(1 for row[0] in csvreader)+1
+        row_val = sum(1 for row[0] in csvreader)+1  # adding one to offset the records 0
 
+#Opening the file to read and process to calculate the monthly diff, average change and greatest increase and decrease
+# had to perform read file twice because python would not allo two loops in file open and had to resolve the closefile error
 
 with open("./Resources/budget_data.csv", 'r') as csvfile:
     csvreader = csv.reader(csvfile,  delimiter=',')
@@ -43,7 +46,7 @@ with open("./Resources/budget_data.csv", 'r') as csvfile:
     for row in csvreader:
         total_pl = int(row[1])
         pl_val = total_pl + pl_val
-        
+        # this step calculates each line and previous line diff and stores it
         if line_cnt == 0:
            pl_nxt = total_pl
            pl_cnt = 0
@@ -82,6 +85,8 @@ with open("./Resources/budget_data.csv", 'r') as csvfile:
         line_cnt2 += 1 
     avg_chg = (sum_pl/(row_val-1))
 
+# printing to the trminal
+print("                                                            ")
 print("Financial Analysis")
 print("                                                            ")
 print("-----------------------------------------------------------")
@@ -95,12 +100,13 @@ print("Greatest Increase in Profits: " + DT_INC + " ($"+str(grt_inc)+")" )
 print("                                                            ")
 print("Greatest Decrease in Profits: " + DT_DEC + " ($"+str(grt_dec)+")")
 
-
+#output file path
 output_path = pathlib.Path("C:/users/shara/PythonStuff/python-challenge/PyBank/analysis/PyBank_output.txt")
 
-# Open the file using "write" mode. Specify the variable to hold the contents
+# Opened the file using "write" mode to write to the file 
 f = open(output_path, "w")
 
+f.writelines("\n")
 f.writelines(" Financial Analysis \n")
 f.writelines("\n")
 f.writelines("-------------------------------------------------------\n")

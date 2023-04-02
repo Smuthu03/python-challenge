@@ -27,15 +27,15 @@ can_name1 = string
 can_name2 = string
 can_name3 = string
 
+#file opened to calculate total vote count
 with open("./Resources/election_data.csv", 'r') as csvfile:
     csvreader = csv.reader(csvfile,  delimiter=',')
     csv_header = next(csvreader)
-
     # Read each row of data after the header
     for row in csvreader:
         tot_vote_cnt = sum(1 for row[0] in csvreader)+1
 
-
+#file opened to calculate votes received by each candidate and stored 
 with open("./Resources/election_data.csv", 'r') as csvfile:
     csvreader = csv.reader(csvfile,  delimiter=',')
     csv_header = next(csvreader)
@@ -47,8 +47,7 @@ with open("./Resources/election_data.csv", 'r') as csvfile:
            can_name1 = row[2]
            can_vote_cnt1 = can_vote_cnt1 + 1
            line_cnt += 1
-      
-        
+             
         if row[2] == "Diana DeGette":
            can_name2 = row[2]
            can_vote_cnt2 = can_vote_cnt2 + 1
@@ -58,10 +57,14 @@ with open("./Resources/election_data.csv", 'r') as csvfile:
             can_name3 = row[2]
             can_vote_cnt3 = can_vote_cnt3 + 1
             line_cnt = 1  
+
+#calculating % of votes received by each candidate
+
 pct_vote1 = (can_vote_cnt1/tot_vote_cnt) * 100
 pct_vote2 = (can_vote_cnt2/tot_vote_cnt)* 100
 pct_vote3 = (can_vote_cnt3/tot_vote_cnt)* 100
 
+#identifying the winner of election
 
 if can_vote_cnt1 > can_vote_cnt2:
    win_nm = "Winner: " + (can_name1)
@@ -70,6 +73,7 @@ elif can_vote_cnt2 > can_vote_cnt3:
 else: 
     win_nm ="Winner: " + (can_name3)
 
+# print out put of results to terminal
 
 print("Election Results")
 print("                                                                      ")
@@ -91,9 +95,10 @@ print("Winner: " + win_nm)
 print("                                                                      ")
 print("------------------------------------------------------------------------------")
 
+# output file path referance
 output_path = pathlib.Path("C:/users/shara/PythonStuff/python-challenge/PyPoll/analysis/PyPoll_output.txt")
 
-# Open the file using "write" mode. Specify the variable to hold the contents
+# Opened the file using "write" mode. 
 f = open(output_path, "w")
 
 f.writelines("\n")
